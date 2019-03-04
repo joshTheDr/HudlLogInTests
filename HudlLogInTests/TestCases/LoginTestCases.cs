@@ -9,11 +9,23 @@ namespace HudlLogInTests.TestCases
 {
     class LoginTestCases
     {
+        private IWebDriver driver;
+
+        [SetUp]
+        public void Init()
+        {
+            driver = new FirefoxDriver();
+        }
+
+        [TearDown]
+        public void Cleanup()
+        {
+            driver.Quit();
+        }
+
         [Test]
         public void SuccessfulLogInWithValidCredentials()
         {
-            IWebDriver driver = new FirefoxDriver();
-
             LogInPage loginpage = new LogInPage(driver);
 
             loginpage.LoadPage();
@@ -26,16 +38,11 @@ namespace HudlLogInTests.TestCases
             HomePage homepage = loginpage.ClickLoginButton<HomePage>();
 
             Assert.IsTrue(homepage.HomePageLogoIsVisible());
-
-            driver.Quit();
-
         }
 
         [Test]
         public void LogInFailsWithMissingPassword()
         {
-            IWebDriver driver = new FirefoxDriver();
-
             LogInPage loginpage = new LogInPage(driver);
 
             loginpage.LoadPage();
@@ -47,15 +54,11 @@ namespace HudlLogInTests.TestCases
             loginpage = loginpage.ClickLoginButton<LogInPage>();
 
             Assert.IsTrue(loginpage.ErrorMessageIsVisible());
-
-            driver.Quit();
         }
 
         [Test]
         public void LogInFailsWithMissingUserName()
         {
-            IWebDriver driver = new FirefoxDriver();
-
             LogInPage loginpage = new LogInPage(driver);
 
             loginpage.LoadPage();
@@ -67,15 +70,11 @@ namespace HudlLogInTests.TestCases
             loginpage = loginpage.ClickLoginButton<LogInPage>();
 
             Assert.IsTrue(loginpage.ErrorMessageIsVisible());
-
-            driver.Quit();
         }
 
         [Test]
         public void LogInFailsWithBothFieldsEmpty()
         {
-            IWebDriver driver = new FirefoxDriver();
-
             LogInPage loginpage = new LogInPage(driver);
 
             loginpage.LoadPage();
@@ -83,15 +82,11 @@ namespace HudlLogInTests.TestCases
             loginpage = loginpage.ClickLoginButton<LogInPage>();
 
             Assert.IsTrue(loginpage.ErrorMessageIsVisible());
-
-            driver.Quit();
         }
 
         [Test]
         public void LogInFailsWithIncorrectPassword()
         {
-            IWebDriver driver = new FirefoxDriver();
-
             LogInPage loginpage = new LogInPage(driver);
 
             loginpage.LoadPage();
@@ -104,21 +99,16 @@ namespace HudlLogInTests.TestCases
             loginpage = loginpage.ClickLoginButton<LogInPage>();
 
             Assert.IsTrue(loginpage.ErrorMessageIsVisible());
-
-            driver.Quit();
         }
+
         [Test]
         public void AnUnauthenicatedUserCannotViewHomePage()
         {
-            IWebDriver driver = new FirefoxDriver();
-
             HomePage homepage = new HomePage(driver);
 
             LogInPage loginPage = homepage.LoadPage<LogInPage>();
 
             Assert.AreEqual(driver.Url, "https://www.hudl.com/login?forward=/home");
-
-            driver.Quit();
         }
 
     }
