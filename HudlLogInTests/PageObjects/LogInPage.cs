@@ -1,6 +1,5 @@
 ﻿using System;
 using OpenQA.Selenium;
-using System.Threading;
 using HudlLogInTests.Utils;
 
 namespace HudlLogInTests.PageObjects
@@ -45,8 +44,15 @@ namespace HudlLogInTests.PageObjects
 
         public bool ErrorMessageIsVisible()
         {
-            Thread.Sleep(1000);
-            return _driver.FindElement(By.CssSelector("a.need-help:nth-child(1)"), 10).Displayed;
+            try
+            {
+                return _driver.IsDisplayed(By.CssSelector(".login-error-container .need-help"), 10);
+
+            }
+            catch (NoSuchElementException e)
+            {
+                return false;
+            }
         }
     }
 }
