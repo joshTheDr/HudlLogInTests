@@ -17,6 +17,7 @@ namespace HudlLogInTests.TestCases
         {
             driver = new FirefoxDriver();
             loginpage = new LogInPage(driver);
+  
             loginpage.LoadPage();
         }
 
